@@ -19,7 +19,7 @@
     --rule: rgba(0,0,0,0.12);
   }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
 
   body {
     background: var(--ink);
@@ -29,6 +29,7 @@
     font-size: 18px;
     line-height: 1.75;
     overflow-x: hidden;
+    touch-action: pan-y;
   }
 
   /* ── MASTHEAD ── */
@@ -107,8 +108,8 @@
     padding: 120px 60px;
     max-width: 860px;
     margin: 0 auto;
-    opacity: 0;
-    transform: translateY(32px);
+    opacity: 1;
+    transform: translateY(0);
     transition: opacity 0.9s ease, transform 0.9s ease;
   }
 
@@ -288,8 +289,8 @@
     background: #0a0a0a;
     border-top: 1px solid rgba(255,255,255,0.06);
     max-width: 100%;
-    opacity: 0;
-    transform: translateY(32px);
+    opacity: 1;
+    transform: translateY(0);
     transition: opacity 0.9s ease, transform 0.9s ease;
   }
 
@@ -336,14 +337,179 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* ── RESPONSIVE ── */
-  @media (max-width: 680px) {
-    .masthead, section, .final { padding-left: 28px; padding-right: 28px; }
-    .two-col { grid-template-columns: 1fr; }
-    .timeline-item { grid-template-columns: 72px 1fr; gap: 20px; }
-    .framework { padding: 32px 28px; }
-    .scroll-cue { left: 28px; }
+  /* ── MOBILE FIRST — optimised for thumb scrolling ── */
+  @media (max-width: 768px) {
+
+    body {
+      font-size: 17px;
+      line-height: 1.72;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    /* Masthead */
+    .masthead {
+      min-height: 100svh;
+      padding: 64px 24px 80px;
+      justify-content: flex-end;
+    }
+
+    .masthead h1 {
+      font-size: clamp(36px, 10vw, 52px);
+      line-height: 1.08;
+    }
+
+    .issue-line {
+      margin-bottom: 40px;
+      font-size: 10px;
+    }
+
+    .masthead-sub {
+      font-size: 15px;
+      margin-top: 32px;
+      max-width: 100%;
+    }
+
+    .scroll-cue {
+      left: 24px;
+      bottom: 28px;
+    }
+
+    /* Sections */
+    section {
+      padding: 72px 24px;
+    }
+
+    .section-label {
+      font-size: 9px;
+      margin-bottom: 28px;
+    }
+
+    h2 {
+      font-size: clamp(28px, 8vw, 40px);
+      margin-bottom: 28px;
+      line-height: 1.12;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.75;
+      margin-bottom: 20px;
+    }
+
+    /* Pull quote — make it sing on mobile */
+    .pull {
+      border-left: 2px solid var(--rust);
+      padding: 20px 0 20px 24px;
+      margin: 36px 0;
+      font-size: clamp(20px, 5.5vw, 26px);
+      line-height: 1.3;
+    }
+
+    /* Timeline — stack year above text on small screens */
+    .timeline {
+      margin: 40px 0;
+    }
+
+    .timeline-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 28px 0;
+    }
+
+    .timeline-year {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+    }
+
+    .timeline-text {
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .timeline-text strong {
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+
+    /* Framework box */
+    .framework {
+      padding: 28px 20px;
+      margin: 36px 0;
+    }
+
+    .framework-title {
+      font-size: 9px;
+      margin-bottom: 20px;
+    }
+
+    .framework p {
+      font-size: 15px;
+    }
+
+    /* Two col — single column always on mobile */
+    .two-col {
+      grid-template-columns: 1fr;
+      gap: 2px;
+      margin: 36px 0;
+    }
+
+    .col-block {
+      padding: 24px 20px;
+    }
+
+    .col-block-label {
+      font-size: 9px;
+      margin-bottom: 12px;
+    }
+
+    .col-block p {
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    /* Final section */
+    .final {
+      min-height: 90svh;
+      padding: 72px 24px 80px;
+      justify-content: flex-end;
+    }
+
+    .final h2 {
+      font-size: clamp(32px, 9vw, 48px);
+      margin-bottom: 24px;
+      line-height: 1.1;
+    }
+
+    .final p {
+      font-size: 16px;
+    }
+
+    .sig {
+      margin-top: 52px;
+      padding-top: 32px;
+    }
+
+    .sig-name {
+      font-size: 20px;
+    }
+
+    .sig-detail {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      line-height: 1.9;
+    }
   }
+
+  /* Tiny phones */
+  @media (max-width: 380px) {
+    .masthead, section, .final { padding-left: 20px; padding-right: 20px; }
+    .masthead h1 { font-size: 32px; }
+    .pull { font-size: 19px; padding-left: 18px; }
+  }
+
+  /* Prevent tap highlight on mobile */
+  * { -webkit-tap-highlight-color: transparent; }
 </style>
 </head>
 <body>
@@ -510,25 +676,39 @@
     <p>See you soon.</p>
 
     <div class="sig">
-      <div class="sig-name">Mark Winterburn</div>
-      <div class="sig-detail">Digital & Transformation Lead — Weymouth & Portland PCN</div>
-      <div class="sig-detail">Co-Director — Neighbourhood CoLab CIC</div>
-      <div class="sig-detail">mark.winterburn@dorsetgp.nhs.uk &nbsp;·&nbsp; 07977 421299</div>
-      <div class="sig-detail" style="margin-top:12px; color: rgba(122,117,112,0.6);">neighbourhoodcolab.co.uk</div>
+      <div class="sig-name">Mark</div>
     </div>
   </div>
 </div>
 
 <script>
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
+  // Show all sections on load as fallback
+  function showAll() {
+    document.querySelectorAll('section, .final').forEach(el => {
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+      el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  }
 
-  document.querySelectorAll('section, .final').forEach(el => observer.observe(el));
+  // Try intersection observer first
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0, rootMargin: '200px 0px 200px 0px' });
+
+    document.querySelectorAll('section, .final').forEach(el => observer.observe(el));
+  } else {
+    showAll();
+  }
+
+  // Hard fallback after 1.5s — if anything still invisible, force show
+  setTimeout(showAll, 1500);
 </script>
 </body>
 </html>
