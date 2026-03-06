@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andrew Whiteley — Before We Meet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0e0e0e;
+    --paper: #f5f0e8;
+    --cream: #ede8dc;
+    --rust: #b84a2a;
+    --slate: #3a3a3a;
+    --mid: #7a7570;
+    --rule: rgba(0,0,0,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px;
+    position: relative;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: #0e0e0e;
+  }
+
+  .masthead::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(184,74,42,0.06) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .issue-line {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 60px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .masthead h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 7vw, 96px);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    max-width: 900px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.5s;
+  }
+
+  .masthead h1 em {
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  .masthead-sub {
+    margin-top: 48px;
+    font-size: 16px;
+    color: rgba(245,240,232,0.5);
+    font-weight: 300;
+    max-width: 480px;
+    line-height: 1.6;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.9s;
+  }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 40px;
+    left: 60px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.25);
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 1.4s;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 120px 60px;
+    max-width: 860px;
+    margin: 0 auto;
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+
+  section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .section-label::after {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 48px;
+    background: var(--rust);
+    opacity: 0.5;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: 40px;
+    color: var(--paper);
+  }
+
+  h2 em {
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  p {
+    color: rgba(245,240,232,0.75);
+    margin-bottom: 24px;
+    font-size: 17px;
+    line-height: 1.8;
+  }
+
+  p strong {
+    color: var(--paper);
+    font-weight: 400;
+  }
+
+  hr.rule {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    margin: 0;
+  }
+
+  /* ── PULL QUOTE ── */
+  .pull {
+    border-left: 2px solid var(--rust);
+    padding: 24px 0 24px 40px;
+    margin: 48px 0;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 3vw, 32px);
+    font-style: italic;
+    line-height: 1.35;
+    color: var(--paper);
+  }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    margin: 56px 0;
+    display: grid;
+    gap: 0;
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 32px;
+    padding: 32px 0;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    align-items: start;
+  }
+
+  .timeline-item:last-child {
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .timeline-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--rust);
+    letter-spacing: 0.05em;
+    padding-top: 2px;
+  }
+
+  .timeline-text {
+    font-size: 16px;
+    color: rgba(245,240,232,0.7);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .timeline-text strong {
+    color: var(--paper);
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 400;
+  }
+
+  /* ── FRAMEWORK BOX ── */
+  .framework {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 48px;
+    margin: 48px 0;
+  }
+
+  .framework-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 28px;
+  }
+
+  .framework p {
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+
+  .framework p:last-child { margin-bottom: 0; }
+
+  /* ── TWO COL ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin: 48px 0;
+  }
+
+  .col-block {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 36px;
+  }
+
+  .col-block-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 16px;
+  }
+
+  .col-block p {
+    font-size: 15px;
+    color: rgba(245,240,232,0.65);
+    margin: 0;
+  }
+
+  /* ── FINAL ── */
+  .final {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 60px;
+    background: #0a0a0a;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    max-width: 100%;
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+
+  .final.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .final-inner {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .final h2 {
+    font-size: clamp(36px, 5vw, 64px);
+    margin-bottom: 32px;
+  }
+
+  .sig {
+    margin-top: 72px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .sig-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--paper);
+  }
+
+  .sig-detail {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--mid);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 680px) {
+    .masthead, section, .final { padding-left: 28px; padding-right: 28px; }
+    .two-col { grid-template-columns: 1fr; }
+    .timeline-item { grid-template-columns: 72px 1fr; gap: 20px; }
+    .framework { padding: 32px 28px; }
+    .scroll-cue { left: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="issue-line">For Andrew Whiteley — Before We Meet</div>
+  <h1>You've been doing <em>AI</em> for twenty-five years.<br>You just called it something else.</h1>
+  <p class="masthead-sub">A note from Mark Winterburn, ahead of our conversation.</p>
+  <div class="scroll-cue">Scroll to read ↓</div>
+</div>
+
+<hr class="rule">
+
+<!-- SECTION 1 -->
+<section>
+  <div class="section-label">I — The origin</div>
+  <h2>It started with a <em>ZX Spectrum</em>.</h2>
+  <p>For both of us, actually. Two people who got there early, took it seriously, and never really stopped. Not as a hobby. As a way of thinking.</p>
+  <p>The through-line from a Spectrum to Claude Code isn't nostalgia. It's character. It's the instinct to pick up a new tool before the instructions exist, to understand it by using it, and to apply it to something that matters rather than something that performs.</p>
+  <p>You applied it to clinical language. In 1999. When nobody was calling it AI.</p>
+
+  <div class="pull">
+    "The Comprehension Engine® isn't a response to the AI moment. It is the AI moment — just twenty-five years early."
+  </div>
+
+  <p>Every startup that raised a Series A in 2023 to build ambient voice technology for the NHS is writing thought leadership posts about how AI is going to transform clinical documentation. You were building the thing they're writing about before most of their founders were in secondary school.</p>
+  <p>That's not a heritage story. That's the actual story.</p>
+</section>
+
+<hr class="rule">
+
+<!-- SECTION 2: TIMELINE -->
+<section>
+  <div class="section-label">II — The record</div>
+  <h2>Twenty-five years of <em>real</em> AI in clinical settings.</h2>
+  <p>Not announced. Not pitched. Built.</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-year">1999</div>
+      <div class="timeline-text">
+        <strong>Lexacom founded.</strong>
+        Clinical speech recognition for the NHS. Machine understanding of medical language, from scratch, before the frameworks existed.
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2000s</div>
+      <div class="timeline-text">
+        <strong>Comprehension Engine® developed.</strong>
+        Proprietary medical language intelligence. Not pattern completion on generic text — genuine clinical domain understanding, built over years of real-world NHS use.
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2020s</div>
+      <div class="timeline-text">
+        <strong>AVT, CertifAI®, Patient Shield®.</strong>
+        Ambient voice technology, post-generation validation, pre-processing PII redaction. Three layers of clinical AI safety, built before MHRA required them.
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2025</div>
+      <div class="timeline-text">
+        <strong>60% of GP practices.</strong>
+        Not venture-funded adoption. Earned adoption. A quarter century of doing what it said on the tin, in one of the world's most demanding operational environments.
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">Now</div>
+      <div class="timeline-text">
+        <strong>The next layer.</strong>
+        Lexacom has owned the capture layer for twenty-five years. Nobody has owned what comes after the consultation ends. Until now.
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- SECTION 3 -->
+<section>
+  <div class="section-label">III — The gap</div>
+  <h2>Every AVT system in the NHS owns the <em>same problem</em>.</h2>
+
+  <p>They capture what was said. They structure it. They validate it against the transcript. They produce a clinical note. And then the consultation ends.</p>
+
+  <p>And the patient leaves.</p>
+
+  <p>With a diagnosis, perhaps. A prescription, sometimes. A referral, maybe. But no clear path through what comes next — no sequenced, human-centred route from the end of the clinical encounter to the next meaningful point of support.</p>
+
+  <div class="framework">
+    <div class="framework-title">The navigation gap</div>
+    <p><strong>The problem isn't information.</strong> NHS resources exist. Local services exist. Support structures exist. The problem is that nobody has designed the moment of handoff — the space between "the consultation is over" and "the patient knows what to do next."</p>
+    <p>That space is currently filled by a print-out, a website link, or the patient's own ability to navigate a system that was never designed to be navigated.</p>
+    <p><strong>Support Playlists closes that gap.</strong> Not with a chatbot. Not with a portal. With a sequenced, intelligible, human-centred set of next steps — generated from what was said, calibrated to where the person is, delivered at the moment it's needed.</p>
+  </div>
+
+  <p>Every AVT vendor in the market is competing on the same axis: transcription accuracy, SOAP note formatting, MHRA compliance, integration depth. Important work. Solved work, increasingly.</p>
+
+  <p>Nobody is competing on what happens after the note is written. That space is open. And it belongs, naturally, to the company that has owned the clinical encounter for twenty-five years.</p>
+</section>
+
+<hr class="rule">
+
+<!-- SECTION 4 -->
+<section>
+  <div class="section-label">IV — The elegance</div>
+  <h2>Platform agnostic.<br><em>Partner specific.</em></h2>
+
+  <p>Support Playlists doesn't require Lexacom infrastructure. It could run on any AVT platform. That's important to say clearly, because it defines exactly what the opportunity is.</p>
+
+  <div class="two-col">
+    <div class="col-block">
+      <div class="col-block-label">What this means for IP</div>
+      <p>The framework stays with Neighbourhood CoLab. The logic, the sequencing, the Emotional Architecture layer. Lexacom licences the capability — it doesn't acquire it. Clean. Durable. Protects both parties through any future transition.</p>
+    </div>
+    <div class="col-block">
+      <div class="col-block-label">What this means for market position</div>
+      <p>Being first isn't about exclusivity. It's about the evidence base, the case studies, the clinical credibility of having done it first — in a real PCN, with real patients, in a real NHS context. That's worth more than a patent.</p>
+    </div>
+  </div>
+
+  <p>The VC-backed competitors are racing each other on transcription accuracy. They are not thinking about what happens after the note is written. They will — eventually. But by then, Lexacom will have been doing it for long enough that the question of who invented this space has already been answered.</p>
+
+  <div class="pull">
+    "First to market with Support Playlists isn't a feature launch. It's a legacy statement."
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- SECTION 5 -->
+<section>
+  <div class="section-label">V — The people</div>
+  <h2>A clinical panel with <em>100 years</em> of NHS practice between them.</h2>
+
+  <p>Neighbourhood CoLab CIC was built for exactly this kind of work. Not a startup. Not a consultancy. A community interest company with four co-directors whose combined NHS experience spans nursing, clinical psychology, social work, and frontline digital transformation.</p>
+
+  <p><strong>Lucy Winterburn RN</strong> — 25+ years NHS nursing. The clinical reality check for every framework we develop. She is the reason Emotional Architecture maps to what actually happens in a consultation, not what the literature says should happen.</p>
+
+  <p><strong>Dr Bruce Fernie</strong> — 25+ years NHS clinical psychology. The theoretical grounding for Disclosure Readiness, Omission Topology, and Tone Gradient. Person-centred therapy, motivational interviewing, attachment theory — applied to AI documentation safety.</p>
+
+  <p><strong>Justin Jones</strong> — 25+ years statutory social work. The safeguarding lens. The person who asks what happens when the system fails the patient, and builds backwards from there.</p>
+
+  <p>This is not a framework built by technologists imagining clinical settings. It is a framework built by clinicians who have spent their careers in them, convened by someone who came from outside and could see the shape of what was missing.</p>
+</section>
+
+<hr class="rule">
+
+<!-- SECTION 6: FINAL -->
+<div class="final">
+  <div class="final-inner">
+    <div class="section-label">VI — The conversation</div>
+    <h2>One more thing,<br>before we<br><em>retire.</em></h2>
+
+    <p>You said something in Marylebone that has stayed with me. That you don't need a lot. Enough for you, your wife, your tortoise.</p>
+
+    <p>I understood that immediately. Not as modesty — as clarity. Knowing what the work is actually for. Building something that matters, then stepping back from it with your integrity intact.</p>
+
+    <p>Support Playlists could be part of that stepping back. Not a distraction from the exit — the thing that makes the exit mean something different. Twenty-five years of owning the clinical encounter. And then, at the end, the company that also owned what came after it.</p>
+
+    <p>The VC kids will write about whoever got there first. I'd like that to be you.</p>
+
+    <p>See you soon.</p>
+
+    <div class="sig">
+      <div class="sig-name">Mark Winterburn</div>
+      <div class="sig-detail">Digital & Transformation Lead — Weymouth & Portland PCN</div>
+      <div class="sig-detail">Co-Director — Neighbourhood CoLab CIC</div>
+      <div class="sig-detail">mark.winterburn@dorsetgp.nhs.uk &nbsp;·&nbsp; 07977 421299</div>
+      <div class="sig-detail" style="margin-top:12px; color: rgba(122,117,112,0.6);">neighbourhoodcolab.co.uk</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('section, .final').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
